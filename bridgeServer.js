@@ -1,7 +1,7 @@
 "use strict";
 
 import httpServer from "./httpServer";
-import { encode } from "base-64";
+import { fromByteArray } from "base64-js";
 
 class Request {
     constructor(rawRequest) {
@@ -28,10 +28,10 @@ class Response {
             httpServer.respond(this.requestId, code, type, body, false);
         } else {
             try {
-                body = encode(String.fromCharCode(...new Uint8Array(body)));
+                body = fromByteArray(new Uint8Array(body));
                 httpServer.respond(this.requestId, code, type, body, true);
             } catch (error) {
-                console.warn("unexpected non-string to Response.send()");
+                console.warn(`unexpected non-string to Response.send().`);
             }
         }
         this.closed = true;
