@@ -104,9 +104,16 @@ RCT_EXPORT_METHOD(stop)
 RCT_EXPORT_METHOD(respond: (NSString *) requestId
                   code: (NSInteger) code
                   type: (NSString *) type
-                  body: (NSString *) body)
+                  body: (NSString *) body
+                  base64: (BOOL) base64)
 {
-    NSData* data = [body dataUsingEncoding:NSUTF8StringEncoding];
+    NSData* data;
+    if (base64) {
+        data = [[NSData alloc] initWithBase64EncodedString: body options: 0];
+    } else {
+        data = [body dataUsingEncoding:NSUTF8StringEncoding];
+    }
+    
     GCDWebServerDataResponse* requestResponse = [[GCDWebServerDataResponse alloc] initWithData:data contentType:type];
     requestResponse.statusCode = code;
 

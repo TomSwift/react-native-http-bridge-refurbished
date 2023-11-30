@@ -16,7 +16,8 @@ declare module "react-native-http-bridge-refurbished" {
         requestId: string,
         code: number,
         type: string,
-        body: string
+        body: string,
+        base64: boolean
     ): void;
 
     export type RawRequest = {
@@ -43,7 +44,7 @@ declare module "react-native-http-bridge-refurbished" {
 
         constructor(requestId: string);
 
-        public send(code: number, type: string, body: string);
+        public send(code: number, type: string, body: string | ArrayBuffer);
 
         public json(obj: object, code?: number);
 
@@ -52,7 +53,7 @@ declare module "react-native-http-bridge-refurbished" {
 
     export type HttpCallback<T> = (
         request: Request<T>,
-        response: Response,
+        response: Response
     ) => Promise<object | void>;
 
     export type HttpCallbackContainer<T> = {
